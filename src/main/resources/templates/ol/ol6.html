@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}"
+>
+<head>
+	<meta charset="UTF-8">
+	<title>WFS에서 정보 가져오기</title>
+
+</head>
+
+<body>
+	<th:block layout:fragment="content_body">
+	
+		<h1 class="text-center mt-5 mb-5">WFS Click</h1>
+		<div class="row mb-5">
+			<div class="col-12">
+				<div id="map" class="map mb-5"></div>
+				<div id="info" class="info"></div>
+			</div>
+			<!-- 			
+			<div class="col-6">
+				<div id="map2" class="map mb-5"></div>
+			</div> 
+			
+			-->
+		</div>
+
+		
+	</th:block>
+	
+	
+	<th:block layout:fragment="page_js">
+		<script type="text/javascript">
+		
+		var distance = 30;
+		var format = new ol.format.GeoJSON();
+		
+		var vectorSource = new ol.source.Vector({
+			format : format,
+			url : function(extent) {
+				return 'http://localhost:12315/geoserver/wfs?' + 
+					'service=WFS&' + 
+					'version=1.1.0&' + 
+					'request=GetFeature&' + 
+					'typeName=example:CTPRVN&' + 
+					'outputFormat=application/json&' + 
+					'srsname=EPSG:3857&' + 
+					'bbox=' + extent.join(',') + ',EPSG:3857';
+			},
+			strategy : ol.loadingstrategy.bbox
+		});
+		
+
+		var vector = new ol.layer.Vector({
+			source : vectorSource,
+			style : new ol.style.Style({
+				stroke : new ol.style.Stroke({
+					color : 'rgba(0, 0, 255, 1.0)',
+					width : 2
+				}),
+				fill : new ol.style.Fill({
+					color : 'rgba(0, 0, 255, 0.5)'
+				}),
+				text : new ol.style.Text({
+					font : '12px Calibri, sans-serif',
+					fill : new ol.style.Fill({color: '#000'}),
+					stroke : new ol.style.Stroke({color : '#fff', width : 3})
+				})
+			})
+		});
+		
+		var url_mapbox = 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYXBwbGVtb29uMTQiLCJhIjoiY2thaHZ3bmh0MGxqODJ4b2VlczlmZ280byJ9.2bdAdtiuTbMNSAYAnC3nzw';
+		var url_vworld = 'http://xdworld.vworld.kr:8080/2d/Base/201802/{z}/{x}/{y}.png';
+
+		
+		var map = new ol.Map({
+			layers : [
+				new ol.layer.Tile({
+					source : new ol.source.XYZ({
+						url : url_mapbox
+					})
+				}), 
+				vector
+			],
+			target : 'map',
+			view : new ol.View({
+				center : [14125866.987598645, 4335335.80905366],
+				maxZoom : 19, 
+				zoom : 6
+			})
+		});
+		
+		
+		// Ver.3
+		var highlight;
+		var displayFeatureInfo = function (evt) {
+
+			var feature = evt.map.forEachFeatureAtPixel(evt.pixel, function(feature){
+				return feature;
+			});
+			
+			var info = feature.getProperties()
+			if (feature != null && (feature != undefined) ) {
+				$('#info').html('CTPRVN_CD : ' + info.CTPRVN_CD +'<br>'
+								+'CTP_ENG_NM : ' + info.CTP_ENG_NM +'<br>'
+								+'CTP_KOR_NM : ' + info.CTP_KOR_NM);
+			}
+			else $('#info').html('')
+		}
+
+		var selectClick = new ol.interaction.Select({
+			condition : ol.events.condition.click,
+			multi : true
+		});
+		map.addInteraction(selectClick);
+		map.on('click', function (evt) {
+			displayFeatureInfo(evt);
+		});
+		
+		
+		
+		/*
+		// Ver.2
+		
+		var selectClick = new ol.interaction.Select({
+			condition : ol.events.condition.click,
+			multi : true
+		});
+		
+		var selectPointerMove = new ol.interaction.Select({
+			condition : ol.events.condition.pointerMove,
+			multi : true
+		});
+		map.addInteraction(selectClick);
+		map.addInteraction(selectPointerMove);
+		*/
+		
+		/*
+		// Ver.1
+		var select = null;
+		
+		var selectSingleClick = new ol.interaction.Select({
+			multi : true
+		});
+		
+		var selectClick = new ol.interaction.Select({
+			condition : ol.events.condition.click,
+			multi : true
+		});
+		
+		var selectPointerMove = new ol.interaction.Select({
+			condition : ol.events.condition.pointerMove,
+			multi : true
+		});
+
+		var selectAltClick = new ol.interaction.Select({
+			condition : function(mapBrowserEvent){
+				return ol.events.condition.click(mapBrowserEvent) && 
+					ol.events.condition.altKeyOnly(mapBrowserEvent)
+			},
+			multi : true
+		});
+		
+		var selectElement = document.getElementById('type');
+		
+		var changeInteraction = function(){
+			if(select !== null){
+				map.removeInteraction(select);
+			}
+			var value = selectElement.value;
+			if(value == 'singleclick') select = selectSingleClick;
+			else if(value == 'click' ) select = selectClick;
+			else if(value == 'pointermove' ) select = selectPointerMove;
+			else if(value == 'altclick' ) select = selectAltClick;
+			else select = null;
+			if (select !== null){
+				map.addInteraction(select);
+			}
+		};
+		
+		selectElement.onchange = changeInteraction;
+		changeInteraction();
+		*/
+		</script>
+	</th:block>
+</body>
+</html>

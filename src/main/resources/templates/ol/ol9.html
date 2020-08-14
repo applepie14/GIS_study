@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}"
+>
+<head>
+	<meta charset="UTF-8">
+	<title>WFS에서 정보 가져오기</title>
+
+</head>
+
+<body>
+	<th:block layout:fragment="content_body">
+	
+		<h1 class="text-center mt-5 mb-5">위치정보 등록/수정/삭제</h1>
+		
+		<div class="row">
+			<div class="col-12">
+				<div id="map" class="map2">
+				</div>
+				<div class="d-none">
+					<div id="olPopup" title="현재 위치"></div>
+					<div id="featureDiv" title="정보"></div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLongTitle">현재 위치 저장</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<label for="insertPoi">위치 이름</label>
+						<input class="form-control form-control-sm" type="text" id="poiname">
+						
+						<label for="insertPoi" class="mt-2">홈페이지</label>
+						<input class="form-control form-control-sm" type="text" id="poisite">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-sm btn-secondary" id="dismissModal" data-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-sm btn-primary" id="insertPOIBtn">저장</button>
+						<button type="button" class="btn btn-sm btn-warning d-none updatePOIBtn">수정</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	
+	
+	<th:block layout:fragment="page_js">
+		<script th:src="@{~/js/ol9.js}"></script>
+	</th:block>
+</body>
+</html>

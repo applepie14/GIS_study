@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hy.pro.ol.mapper.Map">
+	
+	<select id="test" resultType="string">
+		SELECT 
+			POINAME 
+		FROM 
+			STUDYPOI S 
+	</select>
+	<insert id="insertPOI" parameterType="hashmap">
+		INSERT INTO	STUDYPOI (
+			POINAME, 
+			LON, 
+			LAT, 
+			GEOM, 
+			POI_SITE
+		)
+		VALUES(
+			#{poiname}, 
+			#{lon}, 
+			#{lat}, 
+			ST_GEOMFROMTEXT('POINT('|| #{lon} || ' ' || #{lat} || ')',4326),
+			#{poi_site}
+		)
+	</insert>
+	<delete id="deletePOI" parameterType="int">
+		DELETE 
+			FROM 
+				studypoi
+		WHERE 
+			poi_no = #{poi_no}
+	</delete>
+	<update id="updatePOI" parameterType="hashmap">
+		UPDATE 
+			STUDYPOI
+		SET 
+			POINAME = #{poiname},
+			POI_SITE = #{poi_site}
+		WHERE POI_NO = #{poi_no}
+	</update>
+
+</mapper>

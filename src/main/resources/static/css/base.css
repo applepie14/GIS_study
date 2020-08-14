@@ -1,0 +1,60 @@
+
+
+.content {
+    width: 100%;
+    margin: auto;
+    padding: 3rem 10%;
+}
+.map {
+	height: 400px;
+	width: 100%;
+}
+
+.map2 {
+	height: 550px;
+	width: 100%;
+}
+
+.info {
+    overflow: auto;
+    max-width: 100%;
+	min-height: 150px;
+}
+div.popover {
+    min-width: 150px;
+}
+h3.popover-header {
+    text-align: center;
+}
+.popover-body {
+    padding: 0;
+}
+
+.custom-control.custom-switch.ol10 {
+    position: absolute;
+    top: 16rem;
+    right: 11%;
+}
+.mask.ol10 {
+    z-index: 9999;
+    position: absolute;
+    top: calc(9rem + 95px);
+    left: 10%;
+    width: calc(100% - 20%);
+    height: calc(100% - (385px));
+    background-color: rgba(255, 255, 255, 0.7);
+}
+.spinner-border.ol10 {
+    position: relative;
+    top: calc(50% - 40px);
+    left: calc(50% - 40px);
+    width: 80px;
+    height: 80px;
+    border: 10px solid currentColor;
+    border-right-color: transparent;
+}
+label.custom-control-label.ol10 {
+    text-shadow: -0.5px 0 white, 0 0.5px white, 0.5px 0 white, 0 -0.5px white;
+    font-weight: 900;
+    font-size: 18px;
+}

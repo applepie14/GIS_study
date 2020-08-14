@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}"
+>
+<head>
+	<meta charset="UTF-8">
+	<title>WFS에서 정보 가져오기</title>
+</head>
+
+<body>
+	<th:block layout:fragment="content_body">
+	
+		<h1 class="text-center mt-5 mb-5">WFS(+Cluster)</h1>
+		<div class="row mb-5">
+			<div class="col-6">
+				<div id="map" class="map mb-5"></div>
+				<div id="info" class="info"></div>
+			</div>
+			<div class="col-6">
+				<div id="map2" class="map mb-5"></div>
+				<div id="info2" class="info"></div>
+			</div>
+		</div>
+		
+				
+		
+	</th:block>
+	
+	
+	<th:block layout:fragment="page_js">
+    	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
+		<script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
+		<script type="text/javascript">
+		
+		var distance = 30;
+		var format = new ol.format.GeoJSON();
+		
+		var vectorSource = new ol.source.Vector({
+			format : format,
+			url : function(extent) {
+				return 'http://localhost:12315/geoserver/wfs?' + 
+					'service=WFS&' + 
+					'version=1.1.0&' + 
+					'request=GetFeature&' + 
+					//'typeName=example:LPTD_LDREG_DOGEUN_POINT_INFO_11_202007&' + 
+					'typeName=example:poi&' + 
+					'maxFeatures=300&' +
+					'outputFormat=application/json&' + 
+					'srsname=EPSG:3857&' + 
+					'bbox=' + extent.join(',') + ',EPSG:3857';
+			},
+			strategy : ol.loadingstrategy.bbox
+		});
+		
+		var clusterSource = new ol.source.Cluster({
+			distance : parseInt(distance, 30),
+			source : vectorSource
+		});
+		
+		var styleCache = {};
+		
+		var clusters = new ol.layer.Vector({
+			source : clusterSource,
+			style : function(feature){
+				var size = feature.get('features').length;
+				var style = styleCache[size];
+				if(!style){
+					style = new ol.style.Style({
+						image : new ol.style.Circle({
+							radius : 20,
+							stroke : new ol.style.Stroke({
+								color : '#ffffff'
+							}),
+							fill : new ol.style.Fill({
+								color : '#ff9933'
+							})
+						}),
+						text : new ol.style.Text({
+							text : size.toString(),
+							font : 'Bold 20px Verdana',
+							fill : new ol.style.Fill({
+								color : "#ffffff"
+							})
+						})
+					})
+					styleCache[size] = style;
+				}
+				return style;
+			}
+		});
+		var style = new ol.style.Style({
+			image : new ol.style.Circle({
+				radius : 5,
+				stroke : new ol.style.Stroke({
+					color : '#ffffff'
+				}),
+				fill : new ol.style.Fill({
+					color : '#ff9933'
+				})
+			}),
+			stroke : new ol.style.Stroke({
+				color : 'rgba(0, 0, 255, 1.0)',
+				width : 2
+			})
+		})
+		var vector = new ol.layer.Vector({
+			source : vectorSource,
+			style : style 
+		});
+		var vector2 = new ol.layer.Vector({
+			source : vectorSource,
+			style : style 
+		});
+		
+		
+		
+		
+		
+		var url = 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYXBwbGVtb29uMTQiLCJhIjoiY2thaHZ3bmh0MGxqODJ4b2VlczlmZ280byJ9.2bdAdtiuTbMNSAYAnC3nzw'
+
+		
+		var map = new ol.Map({
+			layers : [
+				new ol.layer.Tile({
+					source : new ol.source.XYZ({
+						url : url
+					})
+				}), 
+				clusters,
+				vector2
+			],
+			target : 'map',
+			view : new ol.View({
+				center : [14128579.82, 4512570.74],
+				maxZoom : 19, 
+				zoom : 10
+			})
+		});
+
+		
+		var map2 = new ol.Map({
+			layers : [
+				new ol.layer.Tile({
+					source : new ol.source.XYZ({
+						url : url
+					})
+				}), 
+				vector
+			],
+			target : 'map2',
+			view : new ol.View({
+				center : [14128579.82, 4512570.74],
+				maxZoom : 19, 
+				zoom : 10
+			})
+		});
+		
+		function zoomMap(evt){
+			var zoom = evt.map.getView().getZoom();
+			
+			if(zoom >= 12){
+				vector2.setVisible(true)
+				clusters.setVisible(false)
+			}
+			else {
+				clusters.setVisible(true)
+				vector2.setVisible(false)
+			}
+		}
+		function dblclickMap(evt){
+			var zoom = evt.map.getView().getZoom();
+			var center = evt.map.getView().getCenter();
+			map2.getView().setZoom(zoom);
+			map2.getView().setCenter(center);
+		}
+		map.on('moveend', zoomMap)
+		map.on('moveend', dblclickMap)
+		
+		</script>
+	</th:block>
+</body>
+</html>

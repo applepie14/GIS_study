@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html 
+	lang="ko"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">오픈레이어스</title>
+	<link th:href="@{~/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+	<link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
+	<link th:href="@{~/lib/openlayers/ol.css}" rel="stylesheet" />
+	<link th:href="@{~/css/base.css}" rel="stylesheet">
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm bg-info navbar-dark fixed-top">
+		<button class="navbar-toggler btn btn-sm btn-outline-primary" type="button" data-toggle="collapse" data-target="#navbar"></button>
+		
+		<div class="collapse navbar-collapse" id="navbar">
+			<ul class="navbar-nav">
+				<th:block th:each="num, numStat: ${#numbers.sequence(1,10)}">
+					<th:li class="nav-item" th:classappend="${#request.requestURI == ('/ol/'+(numStat.index+ 1)) ? 'active': ''}">
+						<a class="nav-link" th:href="${'/ol/'+(numStat.index + 1)}" th:text="${numStat.index + 1}"></a>
+					</th:li>
+	
+				</th:block>
+			</ul>
+		</div>
+	</nav>
+	
+	<div class="content mt-5">
+	
+		<th:block layout:fragment="content_body"></th:block>
+	</div>
+	<!-- End of Page Wrapper -->
+	<script th:src="@{~/lib/jquery/jquery.min.js}"></script>
+	<script th:src="@{~/lib/bootstrap/js/bootstrap.bundle.js}"></script>
+	<script th:src="@{~/lib/jquery-ui-1.12.1/jquery-ui.min.js}"></script>
+	<script th:src="@{~/lib/openlayers/ol.js}"></script>
+	<script th:src="@{~/js/base.js}"></script>
+   	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
+	<script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
+	
+	<!-- custom -->
+	<th:block layout:fragment="page_js"></th:block>
+</body>
+</html>

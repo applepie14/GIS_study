@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}"
+>
+<head>
+	<meta charset="UTF-8">
+	<title>WMS에서 정보 가져오기</title>
+</head>
+
+<body>
+	<th:block layout:fragment="content_body">
+	
+		<h1 class="text-center mt-5 mb-5">WMS(+GetFeatureInfo)</h1>
+		<div class="row mb-5">
+			<div class="col-4">
+				<div id="map" class="map mb-5"></div>
+				<img id="legend">
+				<div id="info" class="info"></div>
+			</div>
+			<div class="col-4">
+				<div id="map2" class="map mb-5"></div>
+				<img id="legend2">
+				<div id="info2" class="info"></div>
+			</div>
+			<div class="col-4">
+				<div id="map3" class="map mb-5"></div>
+				<img id="legend3">
+				<div id="info3" class="info"></div>
+			</div>
+		</div>
+		
+				
+		
+	</th:block>
+	
+	
+	<th:block layout:fragment="page_js">
+    	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
+		<script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
+		<script type="text/javascript">
+		
+		var wmsSource = new ol.source.TileWMS({
+			url : 'http://localhost:12315/geoserver/wms',
+			params : {
+
+				'LAYERS': 'example:poi', 
+				//'LAYERS': 'topp:states', 
+				'TILED': true
+			},
+			serverType : 'geoserver',
+			transition : 0
+		});
+		
+		var wmsLayer = new ol.layer.Tile({
+			//extent : [-13884991, 2870341, -7455066, 6338219],
+			source : wmsSource,
+			style : new ol.style.Style({
+				image : new ol.style.Circle({
+					radius : 5,
+					stroke : new ol.style.Stroke({
+						color : '#ffffff'
+					}),
+					fill : new ol.style.Fill({
+						color : '#ff9933'
+					})
+				}),
+				stroke : new ol.style.Stroke({
+					color : 'rgba(0, 0, 255, 1.0)',
+					width : 2
+				})
+			})
+		});
+		
+		var view = new ol.View({
+			center : [14220956.20, 4336731.20],
+			zoom : 6,
+			minZoom : 6
+		});
+		
+		var map = new ol.Map({
+			target : 'map',
+			layers : [ 
+				new ol.layer.Tile({
+					source : new ol.source.OSM()
+				}),
+				wmsLayer
+			],
+			view : view,
+			logo : false
+		});
+		var updateLegend = function(resolution, wmsSources, id) {
+		  var graphicUrl = wmsSources.getLegendUrl(resolution);
+		  var img = document.getElementById(id);
+		  img.src = graphicUrl;
+		};
+
+		updateLegend(map.getView().getResolution(), wmsSource, 'legend');
+
+		// Update the legend when the resolution changes
+		map.getView().on('change:resolution', function(event) {
+		  var resolution = event.target.getResolution();
+		  updateLegend(resolution);
+		});
+		map.on('singleclick', function(evt){
+			document.getElementById('info').innerHTML = '';
+			var viewResolution = (view.getResolution());
+			var url = wmsSource.getFeatureInfoUrl(
+				evt.coordinate, viewResolution, 'EPSG:3857', {'INFO_FORMAT' : 'text/html'}
+			);
+			if(url){
+				fetch(url)
+					.then(function (response) {return response.text(); })
+					.then(function (html){
+						//console.log(html)
+						document.getElementById('info').innerHTML = html;
+					})		
+			}
+		})
+		
+		
+		// ################################## 
+				
+		var wmsSource2 = new ol.source.TileWMS({
+			url : 'http://localhost:12315/geoserver/wms',
+			params : {
+				'LAYERS': 'example:Z_UPIS_C_UQ152', 
+				'TILED': true,
+				'VERSION' : '1.1.0',
+				'CRS' : 'EPSG:3857'
+			},
+			serverType : 'geoserver',
+			transition : 0
+		});
+		
+		var wmsLayer2 = new ol.layer.Tile({
+			source : wmsSource2
+		});
+		
+		var view2 = new ol.View({
+			center : [14220956.20, 4336731.20],
+			zoom : 6
+		});
+		
+		var map2 = new ol.Map({
+			target : 'map2',
+			layers : [ 
+				new ol.layer.Tile({
+					source : new ol.source.XYZ({
+						url : 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYXBwbGVtb29uMTQiLCJhIjoiY2thaHZ3bmh0MGxqODJ4b2VlczlmZ280byJ9.2bdAdtiuTbMNSAYAnC3nzw'
+					})
+				}),
+				wmsLayer2
+			],
+			view : view2,
+			logo : false
+		});
+		
+		map2.on('singleclick', function(evt){
+			document.getElementById('info2').innerHTML = '';
+			var viewResolution = (view2.getResolution());
+			var url = wmsSource2.getFeatureInfoUrl(
+				evt.coordinate, viewResolution, 'EPSG:3857', {'INFO_FORMAT' : 'text/html'}
+			);
+			if(url){
+				fetch(url)
+					.then(function (response) {return response.text(); })
+					.then(function (html){
+						//console.log(html)
+						document.getElementById('info2').innerHTML = html;
+					})		
+			}
+		});
+
+		// ################################## 
+				
+		var wmsSource3 = new ol.source.TileWMS({
+			url : 'http://localhost:12315/geoserver/wms',
+			params : {
+				'LAYERS': 'example:CTPRVN', 
+				'TILED': true
+			},
+			serverType : 'geoserver',
+			transition : 0
+		});
+		
+		var wmsLayer3 = new ol.layer.Tile({
+			source : wmsSource3
+		});
+		
+		var view3 = new ol.View({
+			center : [14220956.20, 4336731.20],
+			zoom : 6,
+			minZoom : 6
+		});
+		
+		var map3 = new ol.Map({
+			target : 'map3',
+			layers : [ 
+				new ol.layer.Tile({
+					source : new ol.source.XYZ({
+						url: 'http://xdworld.vworld.kr:8080/2d/Base/201802/{z}/{x}/{y}.png'
+					})
+				}),
+				wmsLayer3
+			],
+			view : view3,
+			logo : false
+		});
+		
+		map3.on('singleclick', function(evt){
+			document.getElementById('info3').innerHTML = '';
+			var viewResolution = (view3.getResolution());
+			var url = wmsSource3.getFeatureInfoUrl(
+				evt.coordinate, viewResolution, 'EPSG:3857', {'INFO_FORMAT' : 'text/html'}
+			);
+			if(url){
+				fetch(url)
+					.then(function (response) {return response.text(); })
+					.then(function (html){
+						document.getElementById('info3').innerHTML = html;
+					})		
+			}
+		});	
+
+		</script>
+	</th:block>
+</body>
+</html>

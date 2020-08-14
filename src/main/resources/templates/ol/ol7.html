@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}"
+>
+<head>
+	<meta charset="UTF-8">
+	<title>WFS에서 정보 가져오기</title>
+
+</head>
+
+<body>
+	<th:block layout:fragment="content_body">
+	
+		<h1 class="text-center mt-5 mb-5">레이어 선택(WFS)</h1>
+		
+		<div class="row mb-2">
+			<div class="col-2">
+				<select id="layers" class="form-control form-control-sm">
+					<option value="" selected>레이어 없음</option>
+					<option value="ALL" >모든레이어</option>
+					<option value="CTPRVN">시도 레이어</option>
+					<option value="SIG">시군구 레이어</option>
+				</select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div id="map" class="map"></div>
+				<div id="info" class="info"></div>
+			</div>
+		</div>
+
+		
+	</th:block>
+	
+	
+	<th:block layout:fragment="page_js">
+		<script type="text/javascript">
+		
+		var distance = 30;
+		var format = new ol.format.GeoJSON();
+		
+		var vectorSource = new ol.source.Vector({
+			format : format,
+			url : function(extent) {
+				return 'http://localhost:12315/geoserver/wfs?' + 
+					'service=WFS&' + 
+					'version=1.1.0&' + 
+					'request=GetFeature&' + 
+					'typeName=example:SIG&' + 
+					'outputFormat=application/json&' + 
+					'srsname=EPSG:3857&' + 
+					'bbox=' + extent.join(',') + ',EPSG:3857';
+			},
+			strategy : ol.loadingstrategy.bbox
+		});
+
+		var vectorSource2 = new ol.source.Vector({
+			format : format,
+			url : function(extent) {
+				return 'http://localhost:12315/geoserver/wfs?' + 
+					'service=WFS&' + 
+					'version=1.1.0&' + 
+					'request=GetFeature&' + 
+					'typeName=example:CTPRVN&' + 
+					'outputFormat=application/json&' + 
+					'srsname=EPSG:3857&' + 
+					'bbox=' + extent.join(',') + ',EPSG:3857';
+			},
+			strategy : ol.loadingstrategy.bbox
+		});
+		
+		
+
+		var vector = new ol.layer.Vector({
+			id : 'sigungu',
+			source : vectorSource,
+			style : new ol.style.Style({
+				stroke : new ol.style.Stroke({
+					color : '#6e6e6e',
+					width : 2
+				}),
+				fill : new ol.style.Fill({
+					color : hexTorgba('#FFFFFF', 0.5)
+				}),
+				text : new ol.style.Text({
+					font : '12px Calibri, sans-serif',
+					fill : new ol.style.Fill({color: '#000'}),
+					stroke : new ol.style.Stroke({color : '#fff', width : 3})
+				})
+			}),
+			visible : false
+		});
+		var style  = new ol.style.Style({
+			stroke : new ol.style.Stroke({
+				color : '#6e6e6e',
+				width : 1
+			}),
+			fill : new ol.style.Fill({
+				color : hexTorgba('#FFFFFF', 0.5)
+			}),
+			text : new ol.style.Text({
+				font : '14px Calibri, sans-serif',
+				fill : new ol.style.Fill({color: '#000'}),
+				stroke : new ol.style.Stroke({color : '#000', width : 1})
+			})
+		})
+		
+		var vector2 = new ol.layer.Vector({
+			id : 'sido',
+			source : vectorSource2,
+			style : function(f){
+				if(f.getProperties().CTPRVN_CD == '11') {
+					style.getFill().setColor(hexTorgba('#f44336', 0.7)) 
+					return style // 11 : 서울 
+				}
+				if(f.getProperties().CTPRVN_CD == '26') {
+					style.getFill().setColor(hexTorgba('#ff009f', 0.7)) 
+					return style // 26 : 부산
+				}
+				if(f.getProperties().CTPRVN_CD == '27') {
+					style.getFill().setColor(hexTorgba('#03a9f4', 0.7)) 
+					return style // 27 : 대구
+				}
+				if(f.getProperties().CTPRVN_CD == '28') {
+					style.getFill().setColor(hexTorgba('#673ab7', 0.7)) 
+					return style // 28 : 인천
+				}
+				if(f.getProperties().CTPRVN_CD == '29') { 
+					style.getFill().setColor(hexTorgba('#ffeb3b', 0.7)) 
+					return style // 29 : 광주
+				}
+				if(f.getProperties().CTPRVN_CD == '30') {
+					style.getFill().setColor(hexTorgba('#2196f3', 0.7)) 
+					return style // 30 : 대전
+				}
+				if(f.getProperties().CTPRVN_CD == '31') {
+					style.getFill().setColor(hexTorgba('#ffc107', 0.7)) 
+					return style // 31 : 울산
+				}
+				if(f.getProperties().CTPRVN_CD == '36') {
+					style.getFill().setColor(hexTorgba('#00bcd4', 0.7)) 
+					return style // 36 : 세종
+				}
+				if(f.getProperties().CTPRVN_CD == '41') {
+					style.getFill().setColor(hexTorgba('#009688', 0.7)) 
+					return style // 41 : 경기
+				}
+				if(f.getProperties().CTPRVN_CD == '42') {
+					style.getFill().setColor(hexTorgba('#9c27b0', 0.7)) 
+					return style // 42 : 강원
+				}
+				if(f.getProperties().CTPRVN_CD == '43') {
+					style.getFill().setColor(hexTorgba('#e91e63', 0.7)) 
+					return style // 43 : 충북
+				}
+				if(f.getProperties().CTPRVN_CD == '44') {
+					style.getFill().setColor(hexTorgba('#cddc39', 0.7)) 
+					return style // 44 : 충남
+				}
+				if(f.getProperties().CTPRVN_CD == '45') {
+					style.getFill().setColor(hexTorgba('#3f51b5', 0.7))
+					return style // 45 : 전북
+				}
+				if(f.getProperties().CTPRVN_CD == '46') {
+					style.getFill().setColor(hexTorgba('#4caf50', 0.7)) 
+					return style // 46 : 전남
+				}
+				if(f.getProperties().CTPRVN_CD == '47') {
+					style.getFill().setColor(hexTorgba('#ff5722', 0.7)) 
+					return style // 47 : 경북
+				}
+				if(f.getProperties().CTPRVN_CD == '48') {
+					style.getFill().setColor(hexTorgba('#607d8b', 0.7)) 
+					return style // 48 : 경남
+				}
+				if(f.getProperties().CTPRVN_CD == '50') {
+					style.getFill().setColor(hexTorgba('#ff9800', 0.7)) 
+					return style // 50 : 제주
+				}
+			},
+			visible : false
+		});
+		
+		var url_mapbox = 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYXBwbGVtb29uMTQiLCJhIjoiY2thaHZ3bmh0MGxqODJ4b2VlczlmZ280byJ9.2bdAdtiuTbMNSAYAnC3nzw';
+		var url_vworld = 'http://xdworld.vworld.kr:8080/2d/Base/201802/{z}/{x}/{y}.png';
+
+		
+		var map = new ol.Map({
+			layers : [
+				new ol.layer.Tile({
+					source : new ol.source.XYZ({
+						url : url_mapbox
+					})
+				}),
+				vector2, 
+				vector
+			],
+			target : 'map',
+			view : new ol.View({
+				center : [14125866.987598645, 4335335.80905366],
+				maxZoom : 19, 
+				zoom : 6
+			})
+		});
+		
+		var selectClick = new ol.interaction.Select({
+			condition : ol.events.condition.click,
+			multi : false
+		});
+		map.addInteraction(selectClick);
+		
+		var layer_name = $('#layers').val();
+		$('#layers').change(function(){
+			layer_name = $(this).val();
+
+			vector2.setVisible(false);
+			vector.setVisible(false);
+			if(layer_name == 'CTPRVN'){
+				vector2.setVisible(true);
+			}else if(layer_name == 'SIG'){
+				vector.setVisible(true);
+			}else if (layer_name == 'ALL'){
+				vector2.setVisible(true);
+				vector.setVisible(true);
+			}
+		})
+		
+		
+		var displayFeatureInfo = function (evt) {
+			var selectLayer = null
+			
+			if(layer_name == 'ALL'){
+				alert('레이어가 중첩되어있습니다. 하나의 레이어만 선택해주세요.')
+			}
+			else if(layer_name == '' ){ 
+				alert('선택된 레이어가 없습니다. 레이어를 선택해주세요.')
+			}
+			else {
+				var feature = evt.map.forEachFeatureAtPixel(evt.pixel, function(feature){
+					return feature;
+				});
+				
+				if (feature != null && feature != undefined ) {
+					
+					var selectClick = new ol.interaction.Select({
+						condition : ol.events.condition.click,
+						multi : false
+					});
+					map.addInteraction(selectClick);
+					
+					
+					var info = feature.getProperties()
+					if(feature.getId().indexOf('SIG') < 0){
+						$('#info').html('CTPRVN_CD : ' + info.CTPRVN_CD +'<br>'
+										+'CTP_ENG_NM : ' + info.CTP_ENG_NM +'<br>'
+										+'CTP_KOR_NM : ' + info.CTP_KOR_NM);
+					}else{
+						$('#info').html('SIG_CD : ' + info.SIG_CD +'<br>'
+										+'SIG_ENG_NM : ' + info.SIG_ENG_NM +'<br>'
+										+'SIG_KOR_NM : ' + info.SIG_KOR_NM);
+					}
+				}
+				else $('#info').html('')
+			}
+		}
+
+		map.on('click', function (evt) {
+			displayFeatureInfo(evt);
+		});
+		
+		
+		
+		</script>
+	</th:block>
+</body>
+</html>

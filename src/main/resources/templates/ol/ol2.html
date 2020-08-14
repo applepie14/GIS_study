@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}"
+>
+<head>
+	<meta charset="UTF-8">
+	<title>GeoJSON</title>
+</head>
+
+<body>
+	<th:block layout:fragment="content_body">
+		<h2 class="text-center mt-5">GeoJSON</h2>
+		<div id="map" class="map"></div>
+	</th:block>
+	
+	
+	<th:block layout:fragment="page_js">
+    	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
+		<script th:src="@{~/js/ol2.js}">
+
+		</script>
+	</th:block>
+</body>
+</html>

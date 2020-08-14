@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}"
+>
+<head>
+	<meta charset="UTF-8">
+	<title>Vworld 배경지도 사용</title>
+
+</head>
+
+<body>
+	<th:block layout:fragment="content_body">
+		<h2 class="text-center mt-5">Vworld 배경지도 사용</h2>
+		<div id="map" class="map mb-5"></div>
+		<h2 class="text-center mt-5">mapbox 배경지도 사용</h2>
+		<div id="map2" class="map mb-5"></div>
+		
+	</th:block>
+	
+	
+	<th:block layout:fragment="page_js">
+    	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
+		<script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
+		<script type="text/javascript">
+		//https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?
+			var map = new ol.Map({
+				target : 'map',
+				layers : [ new ol.layer.Tile({
+					// source : new ol.source.OSM()
+					source : new ol.source.XYZ({
+						url: 'http://xdworld.vworld.kr:8080/2d/Base/201802/{z}/{x}/{y}.png'
+					})
+				}) ],
+				view : new ol.View({
+					center : [14128579.82, 4512570.74],
+			        //center: ol.proj.fromLonLat([37.41, 8.82]),
+					zoom : 14
+				}),
+				logo : false
+			});
+		
+		var map2 = new ol.Map({
+			target : 'map2',
+			layers : [ new ol.layer.Tile({
+				// source : new ol.source.OSM()
+				source : new ol.source.XYZ({
+					url : 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYXBwbGVtb29uMTQiLCJhIjoiY2thaHZ3bmh0MGxqODJ4b2VlczlmZ280byJ9.2bdAdtiuTbMNSAYAnC3nzw'
+					//url : 'https://api.mapbox.com/v4/mapbox.mapbox-streets-v7/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYXBwbGVtb29uMTQiLCJhIjoiY2thaHZ3bmh0MGxqODJ4b2VlczlmZ280byJ9.2bdAdtiuTbMNSAYAnC3nzw'
+				})
+			}) ],
+			view : new ol.View({
+				center : [14128579.82, 4512570.74],
+		        //center: ol.proj.fromLonLat([37.41, 8.82]),
+				zoom : 14
+			}),
+			logo : false
+		})
+		
+		</script>
+	</th:block>
+</body>
+</html>

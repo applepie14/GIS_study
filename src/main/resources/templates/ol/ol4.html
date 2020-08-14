@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}"
+>
+<head>
+	<meta charset="UTF-8">
+	<title>WFS에서 정보 가져오기</title>
+
+</head>
+
+<body>
+	<th:block layout:fragment="content_body">
+	
+		<h1 class="text-center mt-5 mb-5">WFS</h1>
+		<div class="row mb-5">
+			<div class="col-12">
+				<div id="map" class="map mb-5"></div>
+				<div id="info" class="info"></div>
+			</div>
+			<div class="col-6">
+				<div id="map2" class="map mb-5"></div>
+				<div id="info2" class="info"></div>
+			</div>
+		</div>
+		
+				
+		
+	</th:block>
+	
+	
+	<th:block layout:fragment="page_js">
+    	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
+		<script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
+		<script type="text/javascript">
+		
+		var vectorSource = new ol.source.Vector({
+			format : new ol.format.GeoJSON(),
+			url : function(extent) {
+				return 'http://localhost:12315/geoserver/wfs?' + 
+					'service=WFS&' + 
+					'version=1.0.0&' + 
+					'request=GetFeature&' + 
+					'typeName=example:Z_UPIS_C_UQ152&' + 
+					'maxFeatures=50&' +
+					'outputFormat=application/json&' + 
+					'srsname=EPSG:3857&' + 
+					'bbox=' + extent.join(',') + ',EPSG:3857';
+			},
+			strategy : ol.loadingstrategy.bbox
+		});
+		
+		var vector = new ol.layer.Vector({
+			source : vectorSource,
+			style : new ol.style.Style({
+				stroke : new ol.style.Stroke({
+					color : 'rgba(0, 0, 255, 1.0)',
+					width : 2
+				})
+			})
+		});
+		
+		var raster = new ol.layer.Tile({
+			source : new ol.source.XYZ({
+				url : 'http://xdworld.vworld.kr:8080/2d/Base/201802/{z}/{x}/{y}.png'
+			})
+		});
+		
+		var map = new ol.Map({
+			layers : [raster, vector],
+			target : 'map',
+			view : new ol.View({
+				center : [14128579.82, 4512570.74],
+				maxZoom : 19, 
+				zoom : 14
+			})
+		});
+		
+		
+		
+		
+		</script>
+	</th:block>
+</body>
+</html>
