@@ -1,0 +1,142 @@
+[
+	{
+		"poi_no": 7,
+		"poiname": "미엔아이",
+		"lon": 127.10913,
+		"lat": 37.510952,
+		"geom": {
+			"type": "Point",
+			"coordinates": [
+				127.109130859375,
+				37.5109519958496
+			]
+		},
+		"poi_site": "https://www.instagram.com/mien.ai/"
+	},
+	{
+		"poi_no": 8,
+		"poiname": "건대 호수",
+		"lon": 127.07631,
+		"lat": 37.54056,
+		"geom": {
+			"type": "Point",
+			"coordinates": [
+				127.076309204102,
+				37.5405616760254
+			]
+		},
+		"poi_site": "http://www.konkuk.ac.kr/do/Index.do"
+	},
+	{
+		"poi_no": 9,
+		"poiname": "매봉역",
+		"lon": 127.04694,
+		"lat": 37.487026,
+		"geom": {
+			"type": "Point",
+			"coordinates": [
+				127.046943664551,
+				37.4870262145996
+			]
+		},
+		"poi_site": ""
+	},
+	{
+		"poi_no": 11,
+		"poiname": "강남역",
+		"lon": 127.02775,
+		"lat": 37.49798,
+		"geom": {
+			"type": "Point",
+			"coordinates": [
+				127.02774810791,
+				37.4979782104492
+			]
+		},
+		"poi_site": ""
+	},
+	{
+		"poi_no": 12,
+		"poiname": "강동송파교육지원청",
+		"lon": 127.08889,
+		"lat": 37.514446,
+		"geom": {
+			"type": "Point",
+			"coordinates": [
+				127.088890075684,
+				37.5144462585449
+			]
+		},
+		"poi_site": "http://gdspedu.sen.go.kr/"
+	},
+	{
+		"poi_no": 13,
+		"poiname": "뚝섬유원지",
+		"lon": 127.06709,
+		"lat": 37.529736,
+		"geom": {
+			"type": "Point",
+			"coordinates": [
+				127.067092895508,
+				37.5297355651855
+			]
+		},
+		"poi_site": ""
+	},
+	{
+		"poi_no": 14,
+		"poiname": "청평사",
+		"lon": 127.808975,
+		"lat": 37.986526,
+		"geom": {
+			"type": "Point",
+			"coordinates": [
+				127.808975219727,
+				37.9865264892578
+			]
+		},
+		"poi_site": ""
+	},
+	{
+		"poi_no": 15,
+		"poiname": "애월항",
+		"lon": 126.32316,
+		"lat": 33.46641,
+		"geom": {
+			"type": "Point",
+			"coordinates": [
+				126.32315826416,
+				33.4664115905762
+			]
+		},
+		"poi_site": "https://www.airport.co.kr/jeju/main.do"
+	},
+	{
+		"poi_no": 18,
+		"poiname": "제주공항",
+		"lon": 126.492874,
+		"lat": 33.510147,
+		"geom": {
+			"type": "Point",
+			"coordinates": [
+				126.492874145508,
+				33.5101470947266
+			]
+		},
+		"poi_site": "https://www.airport.co.kr/jeju/main.do"
+	},
+	{
+		"poi_no": 6,
+		"poiname": "현재위치 저장하기1",
+		"lon": 126.950165,
+		"lat": 37.51165,
+		"geom": {
+			"type": "Point",
+			"coordinates": [
+				126.950164794922,
+				37.5116500854492
+			]
+		},
+		"poi_site": "사이트는 없습니다"
+	}
+]

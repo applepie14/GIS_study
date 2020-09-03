@@ -5,7 +5,7 @@
 >
 <head>
 	<meta charset="UTF-8">
-	<title>WFS에서 정보 가져오기</title>
+	<title>WFS : 레이어 선택</title>
 
 </head>
 
@@ -92,94 +92,24 @@
 			}),
 			visible : false
 		});
-		var style  = new ol.style.Style({
-			stroke : new ol.style.Stroke({
-				color : '#6e6e6e',
-				width : 1
-			}),
-			fill : new ol.style.Fill({
-				color : hexTorgba('#FFFFFF', 0.5)
-			}),
-			text : new ol.style.Text({
-				font : '14px Calibri, sans-serif',
-				fill : new ol.style.Fill({color: '#000'}),
-				stroke : new ol.style.Stroke({color : '#000', width : 1})
-			})
-		})
 		
 		var vector2 = new ol.layer.Vector({
 			id : 'sido',
 			source : vectorSource2,
-			style : function(f){
-				if(f.getProperties().CTPRVN_CD == '11') {
-					style.getFill().setColor(hexTorgba('#f44336', 0.7)) 
-					return style // 11 : 서울 
-				}
-				if(f.getProperties().CTPRVN_CD == '26') {
-					style.getFill().setColor(hexTorgba('#ff009f', 0.7)) 
-					return style // 26 : 부산
-				}
-				if(f.getProperties().CTPRVN_CD == '27') {
-					style.getFill().setColor(hexTorgba('#03a9f4', 0.7)) 
-					return style // 27 : 대구
-				}
-				if(f.getProperties().CTPRVN_CD == '28') {
-					style.getFill().setColor(hexTorgba('#673ab7', 0.7)) 
-					return style // 28 : 인천
-				}
-				if(f.getProperties().CTPRVN_CD == '29') { 
-					style.getFill().setColor(hexTorgba('#ffeb3b', 0.7)) 
-					return style // 29 : 광주
-				}
-				if(f.getProperties().CTPRVN_CD == '30') {
-					style.getFill().setColor(hexTorgba('#2196f3', 0.7)) 
-					return style // 30 : 대전
-				}
-				if(f.getProperties().CTPRVN_CD == '31') {
-					style.getFill().setColor(hexTorgba('#ffc107', 0.7)) 
-					return style // 31 : 울산
-				}
-				if(f.getProperties().CTPRVN_CD == '36') {
-					style.getFill().setColor(hexTorgba('#00bcd4', 0.7)) 
-					return style // 36 : 세종
-				}
-				if(f.getProperties().CTPRVN_CD == '41') {
-					style.getFill().setColor(hexTorgba('#009688', 0.7)) 
-					return style // 41 : 경기
-				}
-				if(f.getProperties().CTPRVN_CD == '42') {
-					style.getFill().setColor(hexTorgba('#9c27b0', 0.7)) 
-					return style // 42 : 강원
-				}
-				if(f.getProperties().CTPRVN_CD == '43') {
-					style.getFill().setColor(hexTorgba('#e91e63', 0.7)) 
-					return style // 43 : 충북
-				}
-				if(f.getProperties().CTPRVN_CD == '44') {
-					style.getFill().setColor(hexTorgba('#cddc39', 0.7)) 
-					return style // 44 : 충남
-				}
-				if(f.getProperties().CTPRVN_CD == '45') {
-					style.getFill().setColor(hexTorgba('#3f51b5', 0.7))
-					return style // 45 : 전북
-				}
-				if(f.getProperties().CTPRVN_CD == '46') {
-					style.getFill().setColor(hexTorgba('#4caf50', 0.7)) 
-					return style // 46 : 전남
-				}
-				if(f.getProperties().CTPRVN_CD == '47') {
-					style.getFill().setColor(hexTorgba('#ff5722', 0.7)) 
-					return style // 47 : 경북
-				}
-				if(f.getProperties().CTPRVN_CD == '48') {
-					style.getFill().setColor(hexTorgba('#607d8b', 0.7)) 
-					return style // 48 : 경남
-				}
-				if(f.getProperties().CTPRVN_CD == '50') {
-					style.getFill().setColor(hexTorgba('#ff9800', 0.7)) 
-					return style // 50 : 제주
-				}
-			},
+			style : new ol.style.Style({
+				stroke : new ol.style.Stroke({
+					color : '#6e6e6e',
+					width : 1
+				}),
+				fill : new ol.style.Fill({
+					color : hexTorgba('#17A2B8', 0.5)
+				}),
+				text : new ol.style.Text({
+					font : '14px Calibri, sans-serif',
+					fill : new ol.style.Fill({color: '#000'}),
+					stroke : new ol.style.Stroke({color : '#000', width : 1})
+				})
+			}),
 			visible : false
 		});
 		

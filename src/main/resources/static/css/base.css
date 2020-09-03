@@ -36,7 +36,7 @@ h3.popover-header {
     right: 11%;
 }
 .mask.ol10 {
-    z-index: 9999;
+    z-index: 1;
     position: absolute;
     top: calc(9rem + 95px);
     left: 10%;

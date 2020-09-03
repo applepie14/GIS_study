@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}"
+>
+<head>
+	<meta charset="UTF-8">
+	<title>shp 파일 직접 사용하기</title>
+
+</head>
+
+<body>
+	<th:block layout:fragment="content_body">
+	
+		<h1 class="text-center mt-5 mb-5">shp 파일 직접 사용하기</h1>
+		
+		<div class="row">
+			<div class="col-12">
+				<div id="map" class="map2">
+				</div>
+
+			</div>
+		</div>
+		<div class="mask ol10">
+			<div class="spinner-border ol10"></div>
+		</div>
+	</th:block>
+	
+	
+	<th:block layout:fragment="page_js">
+		<script th:src="@{~/lib/shapefile-js-gh-pages/shp.js}"></script>
+		<script th:src="@{~/js/ol11.js}"></script>
+	</th:block>
+</body>
+</html>

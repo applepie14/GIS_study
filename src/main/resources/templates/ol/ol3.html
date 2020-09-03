@@ -89,19 +89,6 @@
 			view : view,
 			logo : false
 		});
-		var updateLegend = function(resolution, wmsSources, id) {
-		  var graphicUrl = wmsSources.getLegendUrl(resolution);
-		  var img = document.getElementById(id);
-		  img.src = graphicUrl;
-		};
-
-		updateLegend(map.getView().getResolution(), wmsSource, 'legend');
-
-		// Update the legend when the resolution changes
-		map.getView().on('change:resolution', function(event) {
-		  var resolution = event.target.getResolution();
-		  updateLegend(resolution);
-		});
 		map.on('singleclick', function(evt){
 			document.getElementById('info').innerHTML = '';
 			var viewResolution = (view.getResolution());

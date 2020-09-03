@@ -5,7 +5,7 @@
 >
 <head>
 	<meta charset="UTF-8">
-	<title>WFS에서 정보 가져오기</title>
+	<title>WFS : 클러스터 사용하기</title>
 </head>
 
 <body>
@@ -171,8 +171,11 @@
 		function dblclickMap(evt){
 			var zoom = evt.map.getView().getZoom();
 			var center = evt.map.getView().getCenter();
-			map2.getView().setZoom(zoom);
-			map2.getView().setCenter(center);
+
+			map2.getView().animate({
+			    center : center,
+			    zoom: zoom
+			});
 		}
 		map.on('moveend', zoomMap)
 		map.on('moveend', dblclickMap)

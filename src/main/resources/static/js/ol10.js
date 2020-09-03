@@ -122,10 +122,19 @@ var vector = new ol.layer.Vector({
 	} 
 });
 var raster = new ol.layer.Tile({
+
 	source : new ol.source.XYZ({
-		url : url_mapbox
+		url : url_vworld
 	})
+	/*
+	source : new ol.source.Stamen({
+		wrapX : false,
+		layer : 'toner'
+	})
+	*/
 })
+
+var maxExtent = [13146794.559833655, 3899646.5238036118, 15304643.266546285, 4672313.703941598]
 var map = new ol.Map({
 	layers : [
 		raster, 
@@ -134,7 +143,8 @@ var map = new ol.Map({
 	target : 'map',
 	view : new ol.View({
 		center : [14225718.91318997, 4285980.113872604],
-		zoom : 6.8
+		zoom : 6.8,
+		extent :maxExtent
 	})
 });
 
@@ -149,9 +159,19 @@ map.on('singleclick', function(evt){
 		return feature;
 	});
 	if(feature != null || feature != undefined){
-		var coordinate = evt.coordinate;
-		map.getView().setCenter(coordinate);
+		//console.log(feature)
+		var getExtent = feature.getGeometry().getExtent();
+		var center = [(getExtent[0]+getExtent[2])/2, (getExtent[1]+getExtent[3])/2];
+		//var coordinate = evt.coordinate;
+
+		map.getView().animate({
+		    center : center,
+		    zoom: 10
+		});
+		/*
+		map.getView().setCenter(center);
 		map.getView().setZoom(10);
+		*/
 		
 		var info = feature.getProperties();
 		$('#info').html('<span class="d-block text-primary">지역 코드 : ' + info.SIG_CD + '</span>' + 
@@ -160,8 +180,10 @@ map.on('singleclick', function(evt){
 
 	}
 	else {
-		map.getView().setCenter([14225718.91318997, 4285980.113872604]);
-		map.getView().setZoom(6.5);
+		map.getView().animate({
+		    center : [14225718.91318997, 4285980.113872604],
+		    zoom: 6.8
+		});
 		$('#info').html('<span class="d-block text-danger">정보가 없습니다. </span>');
 	}
 	

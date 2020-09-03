@@ -20,11 +20,10 @@ var iconFeature = new ol.Feature({
 
 var iconStyle = new ol.style.Style({
 	image : new ol.style.Icon(({
-		anchor : [0.95, 250],
+		anchor : [0.5, 20],
 		anchorXUnits : 'fraction',
 		anchorYUnits : 'pixels',
-		scale : 0.2,
-		src : 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Map_marker_font_awesome.svg/200px-Map_marker_font_awesome.svg.png'
+		src : 'http://map.vworld.kr/images/ol3/marker_blue.png'
 	}))
 })
 
