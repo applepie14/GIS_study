@@ -58,7 +58,7 @@ var popup = new ol.Overlay({
 	element : popupDiv,
 	positioning: 'bottom-center',
 	stopEvent : false,
-	offset : [-18, -50]
+	offset : [0, -20]
 });
 map.addOverlay(popup);
 

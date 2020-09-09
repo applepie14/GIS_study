@@ -32,6 +32,8 @@ var style = new ol.style.Style({
 var vectorSource = new ol.source.Vector({
 	format : format,
 	url : function(extent) {
+//		console.log(extent)
+//		console.log(extent.join(','))
 		return 'http://localhost:12315/geoserver/wfs?' + 
 			'service=WFS&' + 
 			'version=1.1.0&' + 
@@ -54,6 +56,7 @@ var raster = new ol.layer.Tile({
 		url : url_vworld
 	})
 })
+var maxExtent = [13146794.559833655, 3899646.5238036118, 15304643.266546285, 4672313.703941598]
 var map = new ol.Map({
 	layers : [
 		raster, vector
@@ -62,7 +65,7 @@ var map = new ol.Map({
 	view : new ol.View({
 		center : [14225718.91318997, 4285980.113872604],
 		minZoom : 6.5,
-		zoom : 6.5
+		zoom : 6.5,
 	})
 });
 
@@ -85,17 +88,20 @@ map.addOverlay(featurePopup);
 var insertFeature;
 var insertCoord = [];
 function clickMap(evt){
-	//console.log(evt);
 	var feature = evt.map.forEachFeatureAtPixel(evt.pixel, function(feature){
 		return feature;
 	});
-
 	var coordinate = evt.coordinate;
 	insertCoord = ol.proj.transform(coordinate, 'EPSG:3857', 'EPSG:4326');
 	var hdms = ol.coordinate.toStringHDMS(ol.proj.transform(coordinate, 'EPSG:3857', 'EPSG:4326'));
-
+	
+	// 정보 클릭
 	if(feature != null || feature != undefined){
 		let featureInfo = feature.getProperties();
+		let poi_no = Number(feature.getId().replace('studypoi.',''));
+
+		$('#updatePOIBtn').data('id',poi_no);
+		
 		$(coordDiv).popover('dispose');
 		$(featureDiv).popover('dispose');
 		featurePopup.setPosition(coordinate);
@@ -112,7 +118,7 @@ function clickMap(evt){
 						siteTag + '</div>' +
 						'<div class="d-block text-center p-2"><div class="row  mx-0">' + 
 						'<a class="btn btn-sm btn-block btn-outline-warning mt-2 updateBtn col-6">수정하기</a>' +
-						'<a class="btn btn-sm btn-block btn-outline-danger mt-2 deleteBtn col-6" id="'+featureInfo.poi_no+'">삭제하기</a></div>' +
+						'<a class="btn btn-sm btn-block btn-outline-danger mt-2 deleteBtn col-6" id="'+ poi_no+'">삭제하기</a></div>' +
 						'</div></div>'
 						
 		});
@@ -126,7 +132,10 @@ function clickMap(evt){
 			$('#exampleModalCenter').modal('show');
 			$(featureDiv).popover('dispose');
 		});
+		
 	}
+	
+	// 맵 클릭
 	else if(feature == null || feature == undefined){
 		$(coordDiv).popover('dispose');
 		$(featureDiv).popover('dispose');
@@ -178,7 +187,6 @@ $('#dismissModal').click(function(){
 });
 
 $('#insertPOIBtn').click(function(){
-	console.log('insert');
 	var params = {
 		poiname : $('#poiname').val(),
 		lon : insertCoord[0],
@@ -219,11 +227,10 @@ function deletePOI(request){
 		}
 	});
 }
-
 $('.updatePOIBtn').click(function(){ updatePOI($(this)); });
 function updatePOI(request){
 	var params = {
-		poi_no : Number(request[0].id),
+		poi_no : $(request).data('id'),
 		poiname : $('#poiname').val(),
 		poi_site : $('#poisite').val()
 	}

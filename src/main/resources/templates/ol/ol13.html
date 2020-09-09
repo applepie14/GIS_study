@@ -5,20 +5,30 @@
 >
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>Draw and Modify Features</title>
 
 </head>
 
 <body>
 	<th:block layout:fragment="content_body">
 	
-		<h1 class="text-center mt-5 mb-5"></h1>
+		<h1 class="text-center mt-5 mb-5">Draw and Modify Features</h1>
 		
 		<div class="row">
 			<div class="col-12">
 				<div id="map" class="map2">
 				</div>
 
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-2">
+				<select id="layers" class="form-control form-control-sm">
+					<option value="Point">Point</option>
+					<option value="LineString">LineString</option>
+					<option value="Polygon">Polygon</option>
+					<option value="Circle">Circle</option>
+				</select>
 			</div>
 		</div>
 		<!-- 

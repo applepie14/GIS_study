@@ -3,6 +3,7 @@
 	lang="ko"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
 <head>
 	<meta charset="UTF-8">
@@ -23,10 +24,26 @@
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="navbar-nav">
 				<th:block th:each="num, numStat: ${#numbers.sequence(1,13)}">
-					<th:li class="nav-item" th:classappend="${#request.requestURI == ('/ol/'+(numStat.index+ 1)) ? 'active': ''}">
+					<li class="nav-item" th:classappend="${#request.requestURI == ('/ol/'+(numStat.index+ 1)) ? 'active': ''}">
 						<a class="nav-link" th:href="${'/ol/'+(numStat.index + 1)}" th:text="${numStat.index + 1}"></a>
-					</th:li>
+					</li>
 	
+				</th:block>
+				
+				<th:block sec:authorize="isAuthenticated()">
+					
+					<li class="nav-item ml-auto dropdown">
+					
+						<a	class="nav-link btn btn-light text-dark dropdown-toggle" 
+							href="#" id="navbarDropdown" role="button" 
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">[[${session.user.username}]]</a>
+						<div class="dropdown-menu dropdown-menu-right text-right" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">기타</a>
+							<a class="dropdown-item" href="#">등등</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="/logout">로그아웃</a>
+						</div>
+					</li>
 				</th:block>
 			</ul>
 		</div>
