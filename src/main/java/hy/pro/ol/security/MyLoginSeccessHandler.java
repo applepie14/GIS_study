@@ -10,8 +10,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import hy.pro.ol.vo.QuickGuideUserVO;
-
 public class MyLoginSeccessHandler implements AuthenticationSuccessHandler {
 
 	@Override
@@ -21,7 +19,7 @@ public class MyLoginSeccessHandler implements AuthenticationSuccessHandler {
 		HttpSession session = request.getSession();
 
 		//log.info("@@@@@@@@@@@@@@@@@@@@@\n"+((QuickGuideUserVO)authentication.getPrincipal()).getUser().toString());
-		session.setAttribute("user", ((QuickGuideUserVO)authentication.getPrincipal()));
+		session.setAttribute("user", authentication.getPrincipal());
 
 		response.sendRedirect("/");
 	}

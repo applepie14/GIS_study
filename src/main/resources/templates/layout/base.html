@@ -6,9 +6,14 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
 <head>
+    <meta name="x-ua-compatible" content="IE=EDGE" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/> 
+    -->
 	<meta charset="UTF-8">
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	
 	<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">오픈레이어스</title>
 	<link th:href="@{~/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 	<link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
@@ -27,13 +32,14 @@
 					<li class="nav-item" th:classappend="${#request.requestURI == ('/ol/'+(numStat.index+ 1)) ? 'active': ''}">
 						<a class="nav-link" th:href="${'/ol/'+(numStat.index + 1)}" th:text="${numStat.index + 1}"></a>
 					</li>
-	
 				</th:block>
-				
+								
 				<th:block sec:authorize="isAuthenticated()">
-					
+					<!-- 
+					<span sec:authentication="principal"></span>
+					<span>[[${session.user}]]</span>
+					 -->
 					<li class="nav-item ml-auto dropdown">
-					
 						<a	class="nav-link btn btn-light text-dark dropdown-toggle" 
 							href="#" id="navbarDropdown" role="button" 
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">[[${session.user.username}]]</a>
@@ -50,7 +56,6 @@
 	</nav>
 	
 	<div class="content mt-5">
-	
 		<th:block layout:fragment="content_body"></th:block>
 	</div>
 	<!-- End of Page Wrapper -->

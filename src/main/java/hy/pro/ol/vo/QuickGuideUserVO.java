@@ -10,6 +10,10 @@ import lombok.Data;
 @Data
 public class QuickGuideUserVO implements UserDetails {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2122010914145260476L;
 	private String username;
 	private String id;
     private String password;

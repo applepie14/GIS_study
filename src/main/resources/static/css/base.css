@@ -16,6 +16,7 @@ ul.navbar-nav {
 	width: 100%;
 }
 
+
 .info {
     overflow: auto;
     max-width: 100%;
@@ -58,4 +59,8 @@ label.custom-control-label.ol10 {
     text-shadow: -0.5px 0 white, 0 0.5px white, 0.5px 0 white, 0 -0.5px white;
     font-weight: 900;
     font-size: 18px;
+}
+
+.loginErrorMsgDiv {
+	min-height: 30px;
 }

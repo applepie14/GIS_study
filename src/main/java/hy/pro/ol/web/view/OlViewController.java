@@ -19,7 +19,7 @@ public class OlViewController {
 
 	@GetMapping("/{view}")
 	public String olview(@PathVariable("view") int view) {
-		// log.info("############################### {}","ol/ol" + view);
+//		log.info("############################### {}","ol/ol" + view);
 		return "ol/ol" + view;
 	}
 	
