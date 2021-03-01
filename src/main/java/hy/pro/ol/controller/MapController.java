@@ -50,4 +50,9 @@ public class MapController {
 		log.debug(resultStr);
 		return resultStr;
 	}
+	
+	@PostMapping("/testURL")
+	public int testURL() throws Exception{
+		return 10;
+	}
 }

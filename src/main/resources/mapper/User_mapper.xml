@@ -6,10 +6,13 @@
 		SELECT
 			*
 		FROM
-			DEFAULT_USER
-		WHERE 
-			USER_ID = #{login_id} and user_password = #{login_pwd}
-		AND WITH_PROJ in ('studypoi', 'ALL')
+			DEFAULT_USER A,
+			default_user_with_proj B 
+		where
+			A.user_no = b.user_no 
+		AND USER_ID = #{login_id} and user_password = #{login_pwd}
+		AND WITH_PROJ in ('mongo_start', 'ALL')
+		group by a.user_id 
 	</select>
 	
 	<select id="getLoginUserInfo" resultType="map" parameterType="string">
@@ -19,12 +22,13 @@
 			USER_NAME,
 			USER_ROLE
 		FROM
-			DEFAULT_USER
-		WHERE 
-			USER_ID = #{login_id}
-		AND WITH_PROJ in ('studypoi', 'ALL')
+			DEFAULT_USER A,
+			default_user_with_proj B 
+		where
+			A.user_no = b.user_no 
+		AND USER_ID = #{login_id}
+		AND WITH_PROJ in ('mongo_start', 'ALL')
+		group by a.user_id 
 	</select>
-	
-	
 
 </mapper>

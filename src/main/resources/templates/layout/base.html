@@ -28,7 +28,7 @@
 		
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="navbar-nav">
-				<th:block th:each="num, numStat: ${#numbers.sequence(1,13)}">
+				<th:block th:each="num, numStat: ${#numbers.sequence(1,15)}">
 					<li class="nav-item" th:classappend="${#request.requestURI == ('/ol/'+(numStat.index+ 1)) ? 'active': ''}">
 						<a class="nav-link" th:href="${'/ol/'+(numStat.index + 1)}" th:text="${numStat.index + 1}"></a>
 					</li>
@@ -66,6 +66,7 @@
 	<script th:src="@{~/js/base.js}"></script>
    	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL"></script>
 	<script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	
 	<!-- custom -->
 	<th:block layout:fragment="page_js"></th:block>

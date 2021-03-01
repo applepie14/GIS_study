@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}"
+>
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+
+</head>
+
+<body>
+	<th:block layout:fragment="content_body">
+	
+		<h1 class="text-center mt-5 mb-5">test</h1>
+		
+		<div class="row">
+			<div class="col-12" id="testDiv">
+			<input type="checkbox" class="safetyChartDiv">
+			</div>
+		</div>
+	</th:block>
+	
+	
+	<th:block layout:fragment="page_js">
+		<script th:src="@{~/js/ol15.js}"></script>
+		<script th:src="@{~/js/ol15-1.js}"></script>
+	</th:block>
+</body>
+</html>

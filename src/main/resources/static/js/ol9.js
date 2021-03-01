@@ -92,7 +92,9 @@ function clickMap(evt){
 		return feature;
 	});
 	var coordinate = evt.coordinate;
+	console.log(coordinate);
 	insertCoord = ol.proj.transform(coordinate, 'EPSG:3857', 'EPSG:4326');
+	console.log(insertCoord);
 	var hdms = ol.coordinate.toStringHDMS(ol.proj.transform(coordinate, 'EPSG:3857', 'EPSG:4326'));
 	
 	// 정보 클릭

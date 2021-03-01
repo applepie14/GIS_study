@@ -4,18 +4,33 @@
       layout:decorate="~{layout/base}"
 >
 <head>
-	<title>����</title>
-	<style>
-	</style>
+	<meta charset="UTF-8">
+	<title>메인</title>
+	<link th:href="@{~/css/index.css}" rel="stylesheet">
 </head>
 
 <body>
 	<th:block layout:fragment="content_body">
-		<h2 class="text-center mt-5">OpenLayers & GeoServer</h2>		
+		<h2 class="text-center mt-5">OpenLayers & GeoServer</h2>
+		
+		<p>sweet Alert 예제</p>
+		<button class="btn btn-sm btn-outline-secondary mx-2" id="swal1">alert</button>
+		<button class="btn btn-sm btn-outline-secondary mx-2" id="swal2">alert2</button>
+		<button class="btn btn-sm btn-outline-success mx-2" id="swal3">success</button>
+		<button class="btn btn-sm btn-outline-warning mx-2" id="swal4">warning</button>
+		<button class="btn btn-sm btn-outline-danger mx-2" id="swal5">error</button>
+		<button class="btn btn-sm btn-outline-info mx-2" id="swal6">info</button>
+		<button class="btn btn-sm btn-outline-secondary mx-2" id="swal7">options&promises</button>
+		<button class="btn btn-sm btn-outline-secondary mx-2" id="swal8">promises</button>
+		<button class="btn btn-sm btn-outline-info mx-2" id="swal9">테스트</button>
+		<button class="btn btn-sm btn-outline-info mx-2" id="swal10">테스트</button>
+		<button class="btn btn-sm btn-outline-info mx-2" id="swal11">테스트</button>
+				
 	</th:block>
 	
 	
 	<th:block layout:fragment="page_js">
+		<script th:src="@{~/js/index.js}"></script>
 	</th:block>
 </body>
 </html>

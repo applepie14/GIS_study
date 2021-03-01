@@ -1,0 +1,6 @@
+button.done {
+    background: #dc3545;
+}
+.swal-button.done:not([disabled]):hover{
+    background: #c72333;
+}
